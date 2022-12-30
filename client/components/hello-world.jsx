@@ -14,6 +14,7 @@ export default class HelloWorld extends React.Component {
     this.Click = this.Click.bind(this);
     this.ClickTwo = this.ClickTwo.bind(this);
     this.ClickThree = this.ClickThree.bind(this);
+    this.ClickFour = this.ClickFour.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -27,7 +28,11 @@ export default class HelloWorld extends React.Component {
   }
 
   ClickThree() {
-    this.setState({ toggle: !this.state.toggle });
+    this.setState({ toggle: true });
+  }
+
+  ClickFour() {
+    this.setState({ toggle: false });
   }
 
   componentDidMount() {
@@ -82,7 +87,7 @@ export default class HelloWorld extends React.Component {
             <div className='col-2 text-center'>
               <i onClick={this.ClickThree}className='fa-solid fa-bars mt-3' />
             </div>
-            <div className='col-9 text-end'>
+            <div onClick={this.ClickFour}className='col-9 text-end'>
               <i onClick={this.Click} className="fa-solid fa-plus mt-5" />
             </div>
           </div>
@@ -97,27 +102,30 @@ export default class HelloWorld extends React.Component {
 
       <div className={`box ${buttonText}`}>
         <div className='row'>
-          <div className='col-2 text-center'>
+          <div className='col-11 text-end'>
             <i onClick={this.ClickTwo} className="fa-solid fa-x" />
           </div>
         </div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name:
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" className="btn btn-light" />
-        </form>
+        <div className='row text-center'>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <input required type="text" className='searchbar' value={this.state.value} onChange={this.handleChange} />
+            </label>
+            <div className='col-9'>
+              <button type="submit" className="btn btn-success mt-3">Add</button>
+            </div>
+          </form>
+        </div>
       </div>
 
       <div>
         <div className={`row ${button}`}>
-          <div className={`overlay ${button}`} onClick={this.Click} />
+          {/* <div className={`overlay ${button}`} onClick={this.Click} /> */}
           <div className='col-2 popup'>
-            <a onClick={this.Click}><h1>Menu</h1></a>
-            <a onClick={this.Click}><h3>About</h3></a>
-            <a onClick={this.Click}><h3>Get Started</h3></a>
-            <a onClick={this.Click}><h3>Sign In</h3></a>
+            <a onClick={this.Click}><h6>Courses</h6></a>
+            <a onClick={this.Click}><h6>Assignments</h6></a>
+            <a onClick={this.Click}><h6>Due Assignments</h6></a>
+            <a onClick={this.Click}><h6>Late Assignments</h6></a>
           </div>
         </div>
       </div>

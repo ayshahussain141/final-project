@@ -11,11 +11,11 @@
 
 .box {
   position: absolute;
-  bottom: 297px;
-  left: 57px;
+  bottom: 200px;
+  left: 100px;
   background-color: rgba(0, 0, 0, 84%);
   width: 300px;
-  height: 300px;
+  height: 160px;
 }
 
 .fa-x {
@@ -25,17 +25,29 @@
 
 .popup {
   position: absolute;
-  background-color: #fff9f9;
+  background-color: rgb(245, 245, 245, 67%);
   height: 100%;
   width: 200px;
-  top: 46px;
+  top: 45px;
   border: #a6e9d5;
 }
 
 .overlay {
   top: 45px;
   position: absolute;
-  background-color: rgba(0, 0, 0, 84%);
+  background-color: rgba(0, 0, 0, 87%);
   height: 100%;
   left: 189px;
+}
+
+.searchbar {
+  background-color: rgba(0, 0, 0, 0%);
+  border: 1px solid white;
+  border-radius: 5px;
+  color: white;
+  margin-top: 20px;
+}
+
+.margin {
+  margin-left: 25px;
 }
