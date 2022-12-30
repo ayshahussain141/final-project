@@ -1,0 +1,41 @@
+.header {
+  height: 45px;
+  background-color: #a6e9d5;
+  width: 2000px;
+}
+
+.fa-plus {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.box {
+  position: absolute;
+  bottom: 297px;
+  left: 57px;
+  background-color: rgba(0, 0, 0, 84%);
+  width: 300px;
+  height: 300px;
+}
+
+.fa-x {
+  color: rgb(173, 150, 150);
+  cursor: pointer;
+}
+
+.popup {
+  position: absolute;
+  background-color: #fff9f9;
+  height: 100%;
+  width: 200px;
+  top: 46px;
+  border: #a6e9d5;
+}
+
+.overlay {
+  top: 45px;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 84%);
+  height: 100%;
+  left: 189px;
+}
