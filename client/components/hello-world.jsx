@@ -11,27 +11,27 @@ export default class HelloWorld extends React.Component {
       value: '',
       courseList: []
     };
-    this.Click = this.Click.bind(this);
-    this.ClickTwo = this.ClickTwo.bind(this);
-    this.ClickThree = this.ClickThree.bind(this);
-    this.ClickFour = this.ClickFour.bind(this);
+    this.AddClass = this.AddClass.bind(this);
+    this.HideClass = this.HideClass.bind(this);
+    this.OpenDrawer = this.OpenDrawer.bind(this);
+    this.CloseDrawer = this.CloseDrawer.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  Click() {
+  AddClass() {
     this.setState({ isActive: true });
   }
 
-  ClickTwo() {
+  HideClass() {
     this.setState({ isActive: false });
   }
 
-  ClickThree() {
+  OpenDrawer() {
     this.setState({ toggle: true });
   }
 
-  ClickFour() {
+  CloseDrawer() {
     this.setState({ toggle: false });
   }
 
@@ -85,10 +85,10 @@ export default class HelloWorld extends React.Component {
         <div className='col-12'>
           <div className='row'>
             <div className='col-2 text-center'>
-              <i onClick={this.ClickThree}className='fa-solid fa-bars mt-3' />
+              <i onClick={this.OpenDrawer}className='fa-solid fa-bars mt-3' />
             </div>
-            <div onClick={this.ClickFour}className='col-9 text-end'>
-              <i onClick={this.Click} className="fa-solid fa-plus mt-5" />
+            <div onClick={this.CloseDrawer}className='col-9 text-end'>
+              <i onClick={this.AddClass} className="fa-solid fa-plus mt-5" />
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default class HelloWorld extends React.Component {
       <div className={`box ${buttonText}`}>
         <div className='row'>
           <div className='col-11 text-end'>
-            <i onClick={this.ClickTwo} className="fa-solid fa-x" />
+            <i onClick={this.HideClass} className="fa-solid fa-x" />
           </div>
         </div>
         <div className='row text-center'>
