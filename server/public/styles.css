@@ -11,11 +11,11 @@
 
 .box {
   position: absolute;
-  bottom: 200px;
+  bottom: 77px;
   left: 100px;
   background-color: rgba(0, 0, 0, 84%);
   width: 300px;
-  height: 160px;
+  height: 359px;
 }
 
 .fa-x {
@@ -46,8 +46,150 @@
   border-radius: 5px;
   color: white;
   margin-top: 20px;
+  height: fit-content;
 }
 
 .margin {
   margin-left: 25px;
+}
+
+.side {
+  position: absolute;
+  width: 7px;
+  height: 90px;
+}
+
+.sides {
+  position: absolute;
+  width: 7px;
+  height: 90px;
+  background-color: rgb(152, 155, 192);
+}
+
+.circle {
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid #d0d0d0;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.circle input {
+  display: none;
+}
+
+.lavendar {
+  background-color: #e6e6fa;
+}
+
+.thistle {
+  background-color: #d8bfd8;
+}
+
+.plum {
+  background-color: plum;
+}
+
+.violet {
+  background-color: #ee82ee;
+}
+
+.orchid {
+  background-color: #e6e6fa;
+}
+
+.mediumorchid {
+  background-color: #ba55d3;
+}
+
+.mediumpurple {
+  background-color: #9370db;
+}
+
+.indianred {
+  background-color: #cd5c5c;
+}
+
+.lightcoral {
+  background-color: #f08080;
+}
+
+.salmon {
+  background-color: #fa8072;
+}
+
+.darksalmon {
+  background-color: #e9967a;
+}
+
+.lightsalmon {
+  background-color: #ffa07a;
+}
+
+.crimson {
+  background-color: crimson;
+}
+
+.pink {
+  background-color: pink;
+}
+
+.lightpink {
+  background-color: lightpink;
+}
+
+.hotpink {
+  background-color: hotpink;
+}
+
+.steelblue {
+  background-color: steelblue;
+}
+
+.mediumslateblue {
+  background-color: mediumslateblue;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.lime {
+  background-color: lime;
+}
+
+.limegreen {
+  background-color: limegreen;
+}
+
+.palegreen {
+  background-color: palegreen;
+}
+
+.lightgreen {
+  background-color: lightgreen;
+}
+
+.seagreen {
+  background-color: seagreen;
+}
+
+.forestgreen {
+  background-color: forestgreen;
+}
+
+.green {
+  background-color: green;
+}
+
+.white {
+  background-color: white;
+}
+
+.positions {
+  position: relative;
+  top: 45px;
+  left: 25px;
 }
