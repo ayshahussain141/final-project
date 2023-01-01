@@ -28,12 +28,12 @@ app.get('/api/finalproject', (req, res, next) => {
 app.use(express.json());
 app.post('/api/finalproject', (req, res, next) => {
   const { courseName } = req.body;
-  // const color = req.body.colorCode;
+  const { colorCode } = req.body;
   // const user = Number(req.body.userId);
   const sql = `insert into "courseEntries" ("courseName", "colorCode", "userId")
-                values($1, 'blue', '1')
+                values($1, $2, '1')
                 returning *`;
-  const values = [courseName];
+  const values = [courseName, colorCode];
   db.query(sql, values)
     .then(result => {
       const course = result.rows[0];
