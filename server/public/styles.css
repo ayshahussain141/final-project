@@ -209,10 +209,15 @@
 }
 
 .boxes {
-  width: 350px;
-  height: 215px;
+  width: 337px;
+  height: 271px;
   background-color: whitesmoke;
   position: absolute;
   left: 85px;
   top: 196px;
+}
+
+.margin-minus {
+  margin-top: 3px;
+  margin-left: -44px;
 }

@@ -16,7 +16,8 @@ export default class HelloWorld extends React.Component {
       isHidden: '',
       assignmentList: [],
       valueOne: '',
-      change: false
+      change: false,
+      date: ''
     };
     this.AddClass = this.AddClass.bind(this);
     this.HideClass = this.HideClass.bind(this);
@@ -30,6 +31,7 @@ export default class HelloWorld extends React.Component {
     this.handleChangeOne = this.handleChangeOne.bind(this);
     this.handleSubmitOne = this.handleSubmitOne.bind(this);
     this.changeAssignment = this.changeAssignment.bind(this);
+    this.dateChange = this.dateChange.bind(this);
 
   }
 
@@ -117,12 +119,17 @@ export default class HelloWorld extends React.Component {
     this.setState({ valueOne: event.target.value });
   }
 
+  dateChange(event) {
+    this.setState({ date: event.target.value });
+  }
+
   handleSubmitOne(event) {
     event.preventDefault();
     this.setState({ change: false });
     const reqObj = {};
     reqObj.assignment = this.state.value;
     reqObj.about = this.state.valueOne;
+    reqObj.dateDue = this.state.date;
     const req = {
       method: 'POST',
       headers: {
@@ -224,14 +231,16 @@ export default class HelloWorld extends React.Component {
             </div>
           </div>
           <div className={`overlay ${changepageform}`} />
-
           <div className='row text-center'>
             <div className={`boxes ${changepageform}`} >
               <form onSubmit={this.handleSubmitOne}>
-                <label className='col-9 max-auto m-3'>
+                <label className='col-9 max-auto mt-5 mb-2'>
                   <input required type="text" value={this.state.value} onChange={this.handleChange} placeholder='New Assignment'/>
                 </label>
                 <textarea type="text" onChange={this.handleChangeOne} rows="3" cols="25" className='margin-left' value={this.state.valueOne}/>
+                <label className='margin-minus'>
+                  <input required type="date" placeholder='MM/DD/YYY' onChange={this.dateChange} value={this.state.date} />
+                </label>
                 <div className='col-9 text-end'>
                   <button type="submit" className="btn btn-success mt-3">Add</button>
                 </div>
