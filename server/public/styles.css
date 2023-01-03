@@ -37,7 +37,8 @@
   position: absolute;
   background-color: rgba(0, 0, 0, 87%);
   height: 100%;
-  left: 189px;
+  width: 1700px;
+  left: 1px;
 }
 
 .searchbar {
@@ -192,4 +193,26 @@
   position: relative;
   top: 45px;
   left: 25px;
+}
+
+.liststyle {
+  border-bottom: 1px solid #b6aaaa;
+}
+
+.color {
+  color: #b6aaaa;
+  font-size: small;
+}
+
+.margin-left {
+  margin-left: 25px;
+}
+
+.boxes {
+  width: 350px;
+  height: 215px;
+  background-color: whitesmoke;
+  position: absolute;
+  left: 85px;
+  top: 196px;
 }
