@@ -59,12 +59,12 @@ app.post('/api/finalproject', (req, res, next) => {
 app.post('/api/finalproject/assignment', (req, res, next) => {
   const { assignment } = req.body;
   const { about } = req.body;
-  // const { dateDue } = req.body;
+  const { dateDue } = req.body;
   // const { courseId } = req.body;
   const sql = `insert into "assignments" ("assignment", "about", "dateDue", "courseId")
-                values($1, $2, '01/22/22', '1')
+                values($1, $2, $3, '1')
                 returning *`;
-  const values = [assignment, about];
+  const values = [assignment, about, dateDue];
   db.query(sql, values)
     .then(result => {
       const course = result.rows[0];
