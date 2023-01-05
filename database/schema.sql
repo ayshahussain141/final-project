@@ -36,6 +36,7 @@ CREATE TABLE "public"."assignments" (
 	"assignment" TEXT NOT NULL,
 	"about" TEXT NOT NULL,
 	"dateDue" DATE NOT NULL,
+  "isCompleted" BOOLEAN NOT NULL DEFAULT FALSE,
 	"courseId" integer NOT NULL,
 	"createdAt" timestamptz(6) not null default now(),
 	CONSTRAINT "assignments_pk" PRIMARY KEY ("assignmentId")
