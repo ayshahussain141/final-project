@@ -221,3 +221,20 @@
   margin-top: 3px;
   margin-left: -44px;
 }
+
+.position-relative {
+  position: relative;
+  left: 200px;
+}
+
+.margin-subtract {
+  height: fit-content;
+  width: fit-content;
+  margin-top: -24px;
+}
+
+.color-red {
+  color: #f00;
+  font-size: 15px;
+  font-weight: 600;
+}
