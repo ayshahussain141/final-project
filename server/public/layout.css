@@ -7,13 +7,7 @@
 }
 
 @media screen and (min-width: 768px) {
-  .container {
-    width: 1100px;
-  }
-
-  .box {
-    position: absolute;
-    bottom: 264px;
-    left: 410px;
+  .popup {
+    background-color: blue;
   }
 }
