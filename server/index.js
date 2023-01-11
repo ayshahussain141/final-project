@@ -115,11 +115,22 @@ app.patch('/api/finalproject/assignment/:assignmentId', (req, res, next) => {
 
 app.delete('/api/finalproject/:courseId', (req, res, next) => {
   const { courseId } = req.params;
-  const sql = `
-    delete
-      from "courseEntries"
-      where "courseId" = $1
-  `;
+  // const sql = `
+  //   delete
+  //   from "courseEntries"
+  //   where courseId = $1
+
+  // `;
+
+  const sql =
+ ` WITH moved_rows AS (
+    DELETE FROM "assignments"
+    WHERE "courseId" = $1
+)
+delete
+from "courseEntries"
+where "courseId" = $1
+`;
   const course = [courseId];
   db.query(sql, course)
     .then(result => {

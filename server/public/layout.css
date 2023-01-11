@@ -5,9 +5,3 @@
 .view {
   display: visible;
 }
-
-@media screen and (min-width: 768px) {
-  .popup {
-    background-color: blue;
-  }
-}

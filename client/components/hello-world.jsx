@@ -21,8 +21,8 @@ export default class Course extends React.Component {
       date: '',
       clickedCourse: null,
       popup: false,
-      number: []
-
+      number: [],
+      updateAssignment: false
     };
     this.AddClass = this.AddClass.bind(this);
     this.HideClass = this.HideClass.bind(this);
@@ -156,7 +156,10 @@ export default class Course extends React.Component {
 
   handleSubmitOne(event) {
     event.preventDefault();
-    this.setState({ change: false });
+    this.setState({
+      change: false,
+      updateAssignment: true
+    });
     const reqObj = {};
     reqObj.assignment = this.state.value;
     reqObj.about = this.state.valueOne;
@@ -172,11 +175,19 @@ export default class Course extends React.Component {
     fetch('/api/finalproject/assignment', req)
       .then(res => res.json())
       .then(data => {
+        this.state.assignmentList.push(data);
+        const arr = [];
+        const assignmentListCopy = this.state.assignmentList;
+        for (let i = 0; i < assignmentListCopy.length; i++) {
+          if (assignmentListCopy[i].courseId === this.state.clickedCourse) {
+            arr.push(assignmentListCopy[i]);
+          }
+        }
         const assignmentCopy = [...this.state.assignmentList];
         assignmentCopy.push(data);
         this.setState({
           assignmentList: assignmentCopy,
-          clickedCourseAssignments: assignmentCopy
+          clickedCourseAssignments: arr
         });
 
       })
@@ -189,7 +200,10 @@ export default class Course extends React.Component {
   }
 
   changeAssignment() {
-    this.setState({ change: true });
+    this.setState({
+      change: true,
+      updateAssignment: true
+    });
   }
 
   hidePopup() {
@@ -255,6 +269,22 @@ export default class Course extends React.Component {
     const changepagetwo = this.state.isHidden ? 'hidden' : 'view';
     const changepageform = this.state.change ? 'view' : 'hidden';
     const deletePopup = this.state.popup ? 'view' : 'hidden';
+    const form = this.state.updateAssignment
+      ? (<form onSubmit={this.handleSubmitOne}>
+        <label className='col-9 max-auto mt-5 mb-2'>
+          <input required type="text" value={this.state.value} onChange={this.handleChange} placeholder='New Assignment'/>
+        </label>
+        <textarea type="text" onChange={this.handleChangeOne} rows="3" cols="25" className='margin-left' value={this.state.valueOne}/>
+        <label className='margin-minus'>
+          <input required type="date" placeholder='MM/DD/YYY' onChange={this.dateChange} value={this.state.date} />
+        </label>
+        <div className='col-9 text-end'>
+          <button type="submit" className="btn bg-primary m-3 text-light">Add</button>
+          <button onClick={this.hidePage} type="button" className="btn bg-primary m-3 text-light">Cancel</button>
+        </div>
+      </form>)
+      : null;
+
     return (<div>
       <Header />
       <div className="row">
@@ -323,19 +353,7 @@ export default class Course extends React.Component {
           <div className={`overlay ${changepageform}`} />
           <div className='row text-center'>
             <div className={`boxes ${changepageform}`} >
-              <form onSubmit={this.handleSubmitOne}>
-                <label className='col-9 max-auto mt-5 mb-2'>
-                  <input required type="text" value={this.state.value} onChange={this.handleChange} placeholder='New Assignment'/>
-                </label>
-                <textarea type="text" onChange={this.handleChangeOne} rows="3" cols="25" className='margin-left' value={this.state.valueOne}/>
-                <label className='margin-minus'>
-                  <input required type="date" placeholder='MM/DD/YYY' onChange={this.dateChange} value={this.state.date} />
-                </label>
-                <div className='col-9 text-end'>
-                  <button type="submit" className="btn bg-primary m-3 text-light">Add</button>
-                  <button onClick={this.hidePage} type="button" className="btn bg-primary m-3 text-light">Cancel</button>
-                </div>
-              </form>
+              {form}
             </div>
 
           </div>
