@@ -4,7 +4,7 @@ import ListItems from './course';
 import Colors from './colors';
 import Assignments from './assignments';
 
-export default class HelloWorld extends React.Component {
+export default class Course extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,9 +15,14 @@ export default class HelloWorld extends React.Component {
       color: 'white',
       isHidden: '',
       assignmentList: [],
+      clickedCourseAssignments: [],
       valueOne: '',
       change: false,
-      date: ''
+      date: '',
+      clickedCourse: null,
+      popup: false,
+      number: [],
+      updateAssignment: false
     };
     this.AddClass = this.AddClass.bind(this);
     this.HideClass = this.HideClass.bind(this);
@@ -32,6 +37,12 @@ export default class HelloWorld extends React.Component {
     this.handleSubmitOne = this.handleSubmitOne.bind(this);
     this.changeAssignment = this.changeAssignment.bind(this);
     this.dateChange = this.dateChange.bind(this);
+    this.hidePopup = this.hidePopup.bind(this);
+    this.OpenPopup = this.OpenPopup.bind(this);
+    this.deleteSubmit = this.deleteSubmit.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.viewCourse = this.viewCourse.bind(this);
+    this.hidePage = this.hidePage.bind(this);
 
   }
 
@@ -40,7 +51,11 @@ export default class HelloWorld extends React.Component {
   }
 
   HideClass() {
-    this.setState({ isActive: false });
+    this.setState({
+      isActive: false,
+      value: '',
+      color: 'white'
+    });
   }
 
   OpenDrawer() {
@@ -49,6 +64,10 @@ export default class HelloWorld extends React.Component {
 
   CloseDrawer() {
     this.setState({ toggle: false });
+  }
+
+  viewCourse() {
+    this.setState({ isHidden: this.state.isHidden });
   }
 
   componentDidMount() {
@@ -107,8 +126,20 @@ export default class HelloWorld extends React.Component {
     this.setState({ color: event.target.dataset.color });
   }
 
-  ChangeView() {
-    this.setState({ isHidden: !this.state.isHidden });
+  ChangeView(event) {
+    const clickedId = parseInt(event.target.closest('li').getAttribute('data-number'));
+    const arr = [];
+    const assignmentListCopy = [...this.state.assignmentList];
+    for (let i = 0; i < assignmentListCopy.length; i++) {
+      if (assignmentListCopy[i].courseId === clickedId) {
+        arr.push(assignmentListCopy[i]);
+      }
+    }
+    this.setState({
+      isHidden: !this.state.isHidden,
+      clickedCourseAssignments: arr,
+      clickedCourse: clickedId
+    });
   }
 
   ChangeSee() {
@@ -125,11 +156,15 @@ export default class HelloWorld extends React.Component {
 
   handleSubmitOne(event) {
     event.preventDefault();
-    this.setState({ change: false });
+    this.setState({
+      change: false,
+      updateAssignment: true
+    });
     const reqObj = {};
     reqObj.assignment = this.state.value;
     reqObj.about = this.state.valueOne;
     reqObj.dateDue = this.state.date;
+    reqObj.courseId = this.state.clickedCourse;
     const req = {
       method: 'POST',
       headers: {
@@ -140,18 +175,91 @@ export default class HelloWorld extends React.Component {
     fetch('/api/finalproject/assignment', req)
       .then(res => res.json())
       .then(data => {
+        this.state.assignmentList.push(data);
+        const arr = [];
+        const assignmentListCopy = this.state.assignmentList;
+        for (let i = 0; i < assignmentListCopy.length; i++) {
+          if (assignmentListCopy[i].courseId === this.state.clickedCourse) {
+            arr.push(assignmentListCopy[i]);
+          }
+        }
         const assignmentCopy = [...this.state.assignmentList];
         assignmentCopy.push(data);
         this.setState({
-          assignmentList: assignmentCopy
+          assignmentList: assignmentCopy,
+          clickedCourseAssignments: arr
         });
 
       })
       .catch(err => console.error(err));
   }
 
+  hidePage() {
+    this.setState({ change: false });
+
+  }
+
   changeAssignment() {
-    this.setState({ change: true });
+    this.setState({
+      change: true,
+      updateAssignment: true
+    });
+  }
+
+  hidePopup() {
+    this.setState({ popup: false });
+  }
+
+  OpenPopup(event) {
+    this.setState({ popup: true });
+    const clickedId = Number(event.target.closest('i').getAttribute('id'));
+    this.setState({ number: clickedId });
+  }
+
+  deleteSubmit(event) {
+    this.setState({ popup: false });
+    const id = this.state.number;
+    const toggleObject = this.state.courseList.filter(course => course.courseId !== this.state.number);
+    const req = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(toggleObject)
+    };
+    fetch(`/api/finalproject/${id}`, req)
+      .then(() => {
+        this.setState({ courseList: toggleObject });
+      })
+      .catch(err => console.error(err));
+  }
+
+  toggle(event) {
+    const toggleObject = this.state.assignmentList.find(assignment => assignment.assignmentId === Number(event.target.dataset.number));
+    toggleObject.isCompleted = !toggleObject.isCompleted;
+    if (toggleObject.isCompleted === true) {
+      event.target.className = 'fa-regular fa-circle-check';
+    } else if (toggleObject.isCompleted === false) {
+      event.target.className = 'fa-regular fa-circle';
+    }
+    const reqObj = {};
+    reqObj.isCompleted = toggleObject.isCompleted;
+    fetch(`/api/finalproject/assignment/${event.target.dataset.number}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqObj)
+    })
+      .then(res => res.json())
+      .then(data => {
+        const copy = [...this.state.assignmentList];
+        copy.push(data);
+        this.setState({
+          assignmentList: copy
+        });
+      })
+      .catch(err => console.error(err));
   }
 
   render(event) {
@@ -160,6 +268,23 @@ export default class HelloWorld extends React.Component {
     const changepage = this.state.isHidden ? 'view' : 'hidden';
     const changepagetwo = this.state.isHidden ? 'hidden' : 'view';
     const changepageform = this.state.change ? 'view' : 'hidden';
+    const deletePopup = this.state.popup ? 'view' : 'hidden';
+    const form = this.state.updateAssignment
+      ? (<form onSubmit={this.handleSubmitOne}>
+        <label className='col-9 max-auto mt-5 mb-2'>
+          <input required type="text" value={this.state.value} onChange={this.handleChange} placeholder='New Assignment'/>
+        </label>
+        <textarea type="text" onChange={this.handleChangeOne} rows="3" cols="25" className='margin-left' value={this.state.valueOne}/>
+        <label className='margin-minus'>
+          <input required type="date" placeholder='MM/DD/YYY' onChange={this.dateChange} value={this.state.date} />
+        </label>
+        <div className='col-9 text-end'>
+          <button type="submit" className="btn bg-primary m-3 text-light">Add</button>
+          <button onClick={this.hidePage} type="button" className="btn bg-primary m-3 text-light">Cancel</button>
+        </div>
+      </form>)
+      : null;
+
     return (<div>
       <Header />
       <div className="row">
@@ -176,19 +301,13 @@ export default class HelloWorld extends React.Component {
       </div>
 
       <div className="col-9 mx-auto">
-        <div onClick={this.ChangeView} className={`ml-1 ${changepagetwo}`}>
+        <div className={`ml-1 ${changepagetwo}`}>
           <h1>Courses</h1>
-          <ListItems list={this.state.courseList}/>
+          <ListItems popup={this.OpenPopup} changeView={this.ChangeView} list={this.state.courseList}/>
         </div>
       </div>
 
       <div className={`box ${buttonText}`}>
-        <div className='row'>
-          <div className='col-11 text-end'>
-            <i onClick={this.HideClass} className="fa-solid fa-x" />
-          </div>
-        </div>
-
         <div className='row text-center'>
           <form onSubmit={this.handleSubmit}>
             <div className='col-12'>
@@ -200,8 +319,11 @@ export default class HelloWorld extends React.Component {
               </div>
             </div>
             <Colors onClick={this.colorChange}/>
-            <div className='col-9'>
-              <button type="submit" className="btn btn-success mt-3">Add</button>
+            <div className='row'>
+              <div className='col-9 margin'>
+                <button type="submit" className="btn bg-white text-danger outline-danger m-3">Add</button>
+                <button onClick={this.HideClass} type="button" className="btn bg-white text-danger outline-danger m-3">Cancel</button>
+              </div>
             </div>
           </form>
         </div>
@@ -210,11 +332,8 @@ export default class HelloWorld extends React.Component {
       <div>
         <div className={`row ${button}`}>
           <div className='col-2 popup'>
-            <i onClick={this.CloseDrawer} className="col-9 fa-solid fa-x" />
-            <a><h6>Courses</h6></a>
-            <a><h6>Assignments</h6></a>
-            <a><h6>Due Assignments</h6></a>
-            <a><h6>Late Assignments</h6></a>
+            <i onClick={this.CloseDrawer} className="col-12 fa-solid fa-x text-end text-dark" />
+            <a onClick={this.viewCourse}><h5 className='m-2 text-center'>Courses</h5></a>
           </div>
         </div>
       </div>
@@ -227,25 +346,26 @@ export default class HelloWorld extends React.Component {
               <i onClick={this.changeAssignment} className="fa-solid fa-plus text-end" />
             </div>
             <div>
-              <Assignments list={this.state.assignmentList}/>
+              <Assignments Toggle={this.toggle} list={this.state.clickedCourseAssignments}/>
             </div>
           </div>
+
           <div className={`overlay ${changepageform}`} />
           <div className='row text-center'>
             <div className={`boxes ${changepageform}`} >
-              <form onSubmit={this.handleSubmitOne}>
-                <label className='col-9 max-auto mt-5 mb-2'>
-                  <input required type="text" value={this.state.value} onChange={this.handleChange} placeholder='New Assignment'/>
-                </label>
-                <textarea type="text" onChange={this.handleChangeOne} rows="3" cols="25" className='margin-left' value={this.state.valueOne}/>
-                <label className='margin-minus'>
-                  <input required type="date" placeholder='MM/DD/YYY' onChange={this.dateChange} value={this.state.date} />
-                </label>
-                <div className='col-9 text-end'>
-                  <button type="submit" className="btn btn-success mt-3">Add</button>
-                </div>
-              </form>
+              {form}
             </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div className={`delete ${deletePopup}`}>
+        <h6 className='text-center m-5'>Do you want to delete this course?</h6>
+        <div className='row'>
+          <div className='col-12 text-center'>
+            <button onClick={this.hidePopup} type="submit" className="btn bg-primary text-light m-2 margin-left">Cancel</button>
+            <button onClick={this.deleteSubmit} type="submit" className="btn bg-danger text-light m-2">Delete</button>
           </div>
         </div>
       </div>

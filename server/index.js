@@ -60,7 +60,6 @@ app.use(express.json());
 app.post('/api/finalproject', (req, res, next) => {
   const { courseName } = req.body;
   const { colorCode } = req.body;
-  // const user = Number(req.body.userId);
   const sql = `insert into "courseEntries" ("courseName", "colorCode", "userId")
                 values($1, $2, '1')
                 returning *`;
@@ -77,15 +76,15 @@ app.post('/api/finalproject/assignment', (req, res, next) => {
   const { assignment } = req.body;
   const { about } = req.body;
   const { dateDue } = req.body;
-  // const { courseId } = req.body;
+  const { courseId } = req.body;
   const sql = `insert into "assignments" ("assignment", "about", "dateDue","courseId")
-                values($1, $2, $3,'1')
+                values($1, $2, $3, $4)
                 returning *`;
-  const values = [assignment, about, dateDue];
+  const values = [assignment, about, dateDue, courseId];
   db.query(sql, values)
     .then(result => {
       const course = result.rows[0];
-      return res.status(201).json(course);
+      res.status(201).json(course);
     })
     .catch(err => next(err));
 });
@@ -107,11 +106,37 @@ app.patch('/api/finalproject/assignment/:assignmentId', (req, res, next) => {
       if (!data) {
         res.status(400).json({ error: 'Id does not exist' });
       } else {
-        res.json(data);
+        res.status(201).json(data);
       }
     })
     .catch(err => next(err));
 
+});
+
+app.delete('/api/finalproject/:courseId', (req, res, next) => {
+  const { courseId } = req.params;
+  // const sql = `
+  //   delete
+  //   from "courseEntries"
+  //   where courseId = $1
+
+  // `;
+
+  const sql =
+ ` WITH moved_rows AS (
+    DELETE FROM "assignments"
+    WHERE "courseId" = $1
+)
+delete
+from "courseEntries"
+where "courseId" = $1
+`;
+  const course = [courseId];
+  db.query(sql, course)
+    .then(result => {
+      res.sendStatus(204);
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);

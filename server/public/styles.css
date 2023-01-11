@@ -2,6 +2,7 @@
   height: 45px;
   background-color: #a6e9d5;
   width: 2000px;
+  font-family: "Permanent Marker", cursive;
 }
 
 .fa-plus {
@@ -12,9 +13,9 @@
 .box {
   position: absolute;
   bottom: 77px;
-  left: 100px;
+  left: 37%;
   background-color: rgba(0, 0, 0, 84%);
-  width: 300px;
+  width: 294px;
   height: 359px;
 }
 
@@ -213,7 +214,7 @@
   height: 271px;
   background-color: whitesmoke;
   position: absolute;
-  left: 85px;
+  left: 37%;
   top: 196px;
 }
 
@@ -237,4 +238,15 @@
   color: #f00;
   font-size: 15px;
   font-weight: 600;
+}
+
+.delete {
+  background-color: whitesmoke;
+  top: 213px;
+  position: absolute;
+  height: 200px;
+  left: 37%;
+  width: 352px;
+  border-radius: 5px;
+  border: 1px solid black;
 }
