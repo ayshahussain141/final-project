@@ -2,6 +2,8 @@ require('dotenv/config');
 const express = require('express');
 const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
+const argon2 = require('argon2');
+const ClientError = require('./client-error');
 const pg = require('pg');
 const app = express();
 const db = new pg.Pool({
@@ -115,13 +117,6 @@ app.patch('/api/finalproject/assignment/:assignmentId', (req, res, next) => {
 
 app.delete('/api/finalproject/:courseId', (req, res, next) => {
   const { courseId } = req.params;
-  // const sql = `
-  //   delete
-  //   from "courseEntries"
-  //   where courseId = $1
-
-  // `;
-
   const sql =
  ` WITH moved_rows AS (
     DELETE FROM "assignments"
@@ -137,6 +132,31 @@ where "courseId" = $1
       res.sendStatus(204);
     })
     .catch(err => next(err));
+});
+
+app.post('/api/auth/sign-up', (req, res, next) => {
+  const { userName, email, password } = req.body;
+  if (!userName || !email || !password) {
+    throw new ClientError(400, 'username and password are required fields');
+  }
+  argon2
+    .hash(password)
+    .then(password => {
+      const sql = `insert into users ("userName", "email","hashedPassword")
+              values ($1, $2, $3)
+              returning *`;
+      const values = [userName, email, password];
+      db.query(sql, values)
+        .then(result => {
+          const user = result.rows[0];
+          res.status(201).json(user);
+        })
+        .catch(err => {
+          next(err);
+        });
+    })
+    .catch(err => next(err));
+
 });
 
 app.use(errorMiddleware);

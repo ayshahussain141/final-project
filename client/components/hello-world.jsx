@@ -3,6 +3,7 @@ import Header from './header';
 import ListItems from './course';
 import Colors from './colors';
 import Assignments from './assignments';
+import AuthForm from './signup';
 
 export default class Course extends React.Component {
   constructor(props) {
@@ -287,7 +288,8 @@ export default class Course extends React.Component {
 
     return (<div>
       <Header />
-      <div className="row">
+      <AuthForm/>
+      <div className="row hidden">
         <div className='col-12'>
           <div className='row'>
             <div className='col-2 text-center'>
@@ -300,7 +302,7 @@ export default class Course extends React.Component {
         </div>
       </div>
 
-      <div className="col-9 mx-auto">
+      <div className="col-9 mx-auto hidden">
         <div className={`ml-1 ${changepagetwo}`}>
           <h1>Courses</h1>
           <ListItems popup={this.OpenPopup} changeView={this.ChangeView} list={this.state.courseList}/>
@@ -337,7 +339,6 @@ export default class Course extends React.Component {
           </div>
         </div>
       </div>
-
       <div className='col-9 mx-auto '>
         <div className={`mt-5 ${changepage}`}>
           <div className="ml-1" >
@@ -355,7 +356,6 @@ export default class Course extends React.Component {
             <div className={`boxes ${changepageform}`} >
               {form}
             </div>
-
           </div>
         </div>
       </div>
