@@ -4,6 +4,7 @@ const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
 const argon2 = require('argon2');
 const ClientError = require('./client-error');
+const jwt = require('jsonwebtoken');
 const pg = require('pg');
 const app = express();
 const db = new pg.Pool({
@@ -135,17 +136,17 @@ where "courseId" = $1
 });
 
 app.post('/api/auth/sign-up', (req, res, next) => {
-  const { userName, email, password } = req.body;
-  if (!userName || !email || !password) {
+  const { userName, password } = req.body;
+  if (!userName || !password) {
     throw new ClientError(400, 'username and password are required fields');
   }
   argon2
     .hash(password)
     .then(password => {
-      const sql = `insert into users ("userName", "email","hashedPassword")
-              values ($1, $2, $3)
+      const sql = `insert into users ("userName","hashedPassword")
+              values ($1, $2)
               returning *`;
-      const values = [userName, email, password];
+      const values = [userName, password];
       db.query(sql, values)
         .then(result => {
           const user = result.rows[0];
@@ -157,6 +158,39 @@ app.post('/api/auth/sign-up', (req, res, next) => {
     })
     .catch(err => next(err));
 
+});
+
+app.post('/api/auth/sign-in', (req, res, next) => {
+  const { userName, password } = req.body;
+  if (!userName || !password) {
+    throw new ClientError(401, 'invalid login');
+  }
+  const sql = `
+    select "userId",
+           "hashedPassword"
+      from "users"
+     where "userName" = $1
+  `;
+  const params = [userName];
+  db.query(sql, params)
+    .then(result => {
+      const [user] = result.rows;
+      if (!user) {
+        throw new ClientError(401, 'invalid login');
+      }
+      const { userId, hashedPassword } = user;
+      return argon2
+        .verify(hashedPassword, password)
+        .then(isMatching => {
+          if (!isMatching) {
+            throw new ClientError(401, 'invalid login');
+          }
+          const payload = { userId, userName };
+          const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+          res.json({ token, user: payload });
+        });
+    })
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);

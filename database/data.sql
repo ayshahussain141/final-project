@@ -1,5 +1,5 @@
-insert into "users" ("userId", "userName", "email", "hashedPassword")
-values(1, 'Ayshahaha', 'aysha@gmail.com', 'robot');
+insert into "users" ("userId", "userName", "hashedPassword")
+values(1, 'Ayshahaha', 'robot');
 
 insert into "courseEntries" ("courseName", "colorCode", "userId")
 values('JavaScript', 'blue', 1);

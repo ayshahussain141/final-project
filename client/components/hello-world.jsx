@@ -1,9 +1,9 @@
 import React from 'react';
-import Header from './header';
+// import Header from './header';
 import ListItems from './course';
-import Colors from './colors';
 import Assignments from './assignments';
-import AuthForm from './signup';
+import DeleteCourse from './delete';
+import CourseForm from './courseform';
 
 export default class Course extends React.Component {
   constructor(props) {
@@ -287,9 +287,7 @@ export default class Course extends React.Component {
       : null;
 
     return (<div>
-      <Header />
-      <AuthForm/>
-      <div className="row hidden">
+      <div className="row">
         <div className='col-12'>
           <div className='row'>
             <div className='col-2 text-center'>
@@ -302,34 +300,13 @@ export default class Course extends React.Component {
         </div>
       </div>
 
-      <div className="col-9 mx-auto hidden">
+      <div className="col-9 mx-auto">
         <div className={`ml-1 ${changepagetwo}`}>
           <h1>Courses</h1>
           <ListItems popup={this.OpenPopup} changeView={this.ChangeView} list={this.state.courseList}/>
         </div>
       </div>
-
-      <div className={`box ${buttonText}`}>
-        <div className='row text-center'>
-          <form onSubmit={this.handleSubmit}>
-            <div className='col-12'>
-              <div className='row'>
-                <label data-color={this.state.color} className={`circle ${this.state.color} positions`} />
-                <label>
-                  <input required type="text" className='searchbar' value={this.state.value} onChange={this.handleChange} />
-                </label>
-              </div>
-            </div>
-            <Colors onClick={this.colorChange}/>
-            <div className='row'>
-              <div className='col-9 margin'>
-                <button type="submit" className="btn bg-white text-danger outline-danger m-3">Add</button>
-                <button onClick={this.HideClass} type="button" className="btn bg-white text-danger outline-danger m-3">Cancel</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+      <CourseForm ButtonText={buttonText} Colors={this.state.color} Changecolors={this.colorChange} Hide={this.HideClass} handle={this.handleChange} values={this.state.value} Submit={this.handleSubmit}/>
 
       <div>
         <div className={`row ${button}`}>
@@ -339,6 +316,7 @@ export default class Course extends React.Component {
           </div>
         </div>
       </div>
+
       <div className='col-9 mx-auto '>
         <div className={`mt-5 ${changepage}`}>
           <div className="ml-1" >
@@ -359,16 +337,7 @@ export default class Course extends React.Component {
           </div>
         </div>
       </div>
-
-      <div className={`delete ${deletePopup}`}>
-        <h6 className='text-center m-5'>Do you want to delete this course?</h6>
-        <div className='row'>
-          <div className='col-12 text-center'>
-            <button onClick={this.hidePopup} type="submit" className="btn bg-primary text-light m-2 margin-left">Cancel</button>
-            <button onClick={this.deleteSubmit} type="submit" className="btn bg-danger text-light m-2">Delete</button>
-          </div>
-        </div>
-      </div>
+      <DeleteCourse Hide={this.hidePopup} deleteSubmitform={this.deleteSubmit} delete={deletePopup}/>
     </div>
     );
   }
