@@ -7,6 +7,7 @@ const ClientError = require('./client-error');
 const jwt = require('jsonwebtoken');
 const pg = require('pg');
 const app = express();
+const authorizationMiddleware = require('./authorization-middleware');
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -16,18 +17,21 @@ const db = new pg.Pool({
 
 app.use(staticMiddleware);
 
-app.get('/api/finalproject', (req, res, next) => {
-  const sql = `
-    select *
-      from "courseEntries"
-  `;
-  db.query(sql)
-    .then(result => {
-      const users = result.rows;
-      res.json(users);
-    })
-    .catch(err => next(err));
-});
+// app.get('/api/finalproject', (req, res, next) => {
+//   const userId = req.body;
+//   const sql = `
+//     select *
+//       from "courseEntries"
+//      where "userId" = 2
+//   `;
+//   const params = [userId];
+//   db.query(sql, params)
+//     .then(result => {
+//       res.json(result.rows);
+//       console.log(result.rows);
+//     })
+//     .catch(err => next(err));
+// });
 
 app.get('/api/finalproject/assignment', (req, res, next) => {
   const sql = `
@@ -63,10 +67,11 @@ app.use(express.json());
 app.post('/api/finalproject', (req, res, next) => {
   const { courseName } = req.body;
   const { colorCode } = req.body;
+  const { userId } = req.body;
   const sql = `insert into "courseEntries" ("courseName", "colorCode", "userId")
-                values($1, $2, '1')
+                values($1, $2, $3)
                 returning *`;
-  const values = [courseName, colorCode];
+  const values = [courseName, colorCode, userId];
   db.query(sql, values)
     .then(result => {
       const course = result.rows[0];
@@ -119,7 +124,7 @@ app.patch('/api/finalproject/assignment/:assignmentId', (req, res, next) => {
 app.delete('/api/finalproject/:courseId', (req, res, next) => {
   const { courseId } = req.params;
   const sql =
- ` WITH moved_rows AS (
+    ` WITH moved_rows AS (
     DELETE FROM "assignments"
     WHERE "courseId" = $1
 )
@@ -192,7 +197,21 @@ app.post('/api/auth/sign-in', (req, res, next) => {
     })
     .catch(err => next(err));
 });
-
+app.use(authorizationMiddleware);
+app.get('/api/finalproject', (req, res, next) => {
+  const { userId } = req.user;
+  const sql = `
+    select *
+      from "courseEntries"
+     where "userId" = $1
+  `;
+  const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(err => next(err));
+});
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

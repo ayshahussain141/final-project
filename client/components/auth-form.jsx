@@ -4,7 +4,7 @@ export default class AuthForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
+      username: '',
       password: ''
     };
     this.handleChange = this.handleChange.bind(this);
@@ -31,8 +31,10 @@ export default class AuthForm extends React.Component {
       .then(result => {
         if (action === 'sign-up') {
           window.location.hash = 'sign-in';
+        } else if (result.user && result.token) {
+          window.location.hash = 'courses';
+          this.props.onSignIn(result);
         }
-        // window.location.hash = '';
       });
   }
 
@@ -46,7 +48,7 @@ export default class AuthForm extends React.Component {
       ? 'Sign in instead'
       : 'Register now';
     const submitButtonText = action === 'sign-up'
-      ? 'Create Your Account'
+      ? 'Register'
       : 'Log In';
     return (
       <form onSubmit={handleSubmit}>

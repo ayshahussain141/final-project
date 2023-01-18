@@ -72,7 +72,14 @@ export default class Course extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/finalproject')
+    const head = localStorage.getItem('react-context-jwt');
+    fetch('/api/finalproject', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': `${head}`
+      }
+    })
       .then(res => res.json())
       .then(data => {
         this.setState({
@@ -89,7 +96,6 @@ export default class Course extends React.Component {
         });
       })
       .catch(error => console.error(error));
-
   }
 
   handleSubmit(event) {
@@ -98,6 +104,7 @@ export default class Course extends React.Component {
     const reqObj = {};
     reqObj.courseName = this.state.value;
     reqObj.colorCode = this.state.color;
+    reqObj.userId = localStorage.getItem('user');
     const req = {
       method: 'POST',
       headers: {
