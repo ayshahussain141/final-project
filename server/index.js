@@ -4,6 +4,7 @@ const staticMiddleware = require('./static-middleware');
 const errorMiddleware = require('./error-middleware');
 const argon2 = require('argon2');
 const ClientError = require('./client-error');
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const pg = require('pg');
 const app = express();
@@ -216,4 +217,14 @@ app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
   process.stdout.write(`\n\napp listening on port ${process.env.PORT}\n\n`);
+});
+
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: `cannot ${req.method} ${req.url}` });
+});
+
+app.use((req, res) => {
+  res.sendFile('/index.html', {
+    root: path.join(__dirname, 'public')
+  });
 });
