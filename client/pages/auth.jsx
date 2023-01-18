@@ -16,13 +16,13 @@ export default class AuthPage extends React.Component {
     return (
       <div className="row pt-5">
         <div className="col-12">
-          <div className='col-12 text-center'>
+          <div className='col-11 text-center'>
             <h2 className="mb-2">
               SchoolZen
             </h2>
             <p className="text-muted mb-4">{welcomeMessage}</p>
           </div>
-          <div className= "col-12 text-center m-2">
+          <div className= "col-11 text-center m-2">
             <AuthForm
               key={route.path}
               action={route.path}
