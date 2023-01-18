@@ -3,7 +3,6 @@ import React from 'react';
 export default class listItems extends React.Component {
   render() {
     const list = this.props.list;
-
     const listItems = list.map(lists => {
       return (<li key={lists.courseId} className='list-unstyled' data-number={lists.courseId} >
         <div>

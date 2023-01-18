@@ -5,15 +5,16 @@ import AuthPage from './pages/auth';
 import AppContext from './lib/app-context';
 import Header from './components/header';
 import jwtDecode from 'jwt-decode';
+import HomePage from './pages/home-page';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      route: parseRoute(window.location.hash),
-      user: null
+      user: null,
+      isAuthorizing: true,
+      route: parseRoute(window.location.hash)
     };
-    this.renderPage = this.renderPage.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
   }
@@ -24,20 +25,33 @@ export default class App extends React.Component {
         route: parseRoute(window.location.hash)
       });
     });
+    const token = window.localStorage.getItem('react-context-jwt');
+    const user = token ? jwtDecode(token) : null;
+    this.setState({ user, isAuthorizing: false });
   }
 
-  handleSignIn() {
+  handleSignIn(result) {
+    const { user, token } = result;
+    window.localStorage.setItem('react-context-jwt', token);
+    window.localStorage.setItem('user', user.userId);
+    // console.log(window.localStorage);
+    this.setState({ user });
   }
 
   handleSignOut() {
-
+    window.localStorage.removeItem('react-context-jwt');
+    window.localStorage.removeItem('user');
+    this.setState({ user: null });
+    window.location.hash = '';
   }
 
   renderPage() {
     const { route } = this.state;
-
-    if (route.path === '') {
+    if (route.path === 'courses') {
       return <Home/>;
+    }
+    if (route.path === '') {
+      return <HomePage />;
     }
     if (route.path === 'sign-up' || route.path === 'sign-in') {
       return <AuthPage/>;
@@ -45,18 +59,17 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { renderPage } = this;
-    const { route, user, handleSignIn, handleSignOut } = this.state;
+    if (this.state.isAuthorizing) return null;
+    const { user, route } = this.state;
+    const { handleSignIn, handleSignOut } = this;
     const contextValue = { user, route, handleSignIn, handleSignOut };
     return (
       <AppContext.Provider value={contextValue}>
         <>
           <Header />
-          {renderPage()}
+          {this.renderPage()}
         </>
       </AppContext.Provider>
-
     );
-
   }
 }
