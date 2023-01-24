@@ -13,7 +13,6 @@
 .box {
   position: absolute;
   bottom: 77px;
-  left: 37%;
   background-color: rgba(0, 0, 0, 84%);
   width: 294px;
   height: 359px;
@@ -34,12 +33,13 @@
 }
 
 .overlay {
-  top: 45px;
+  top: 0;
+  right: 0;
+  bottom: 0;
   position: absolute;
-  background-color: rgba(0, 0, 0, 87%);
+  background-color: rgba(0, 0, 0, 70%);
   height: 100%;
-  width: 1700px;
-  left: 1px;
+  left: 0;
 }
 
 .searchbar {
@@ -69,7 +69,6 @@
 }
 
 .circle {
-  display: block;
   width: 25px;
   height: 25px;
   border-radius: 50%;
@@ -210,17 +209,10 @@
 }
 
 .boxes {
-  width: 337px;
+  width: 282px;
   height: 271px;
   background-color: whitesmoke;
-  position: absolute;
-  left: 37%;
-  top: 196px;
-}
-
-.margin-minus {
-  margin-top: 3px;
-  margin-left: -44px;
+  top: 130px;
 }
 
 .position-relative {
@@ -249,4 +241,18 @@
   width: 352px;
   border-radius: 5px;
   border: 1px solid black;
+}
+
+.background-image {
+  background-image: url("https://images.pexels.com/photos/965119/pexels-photo-965119.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  background-position: center bottom;
+}
+
+.border-color {
+  border: none;
+  border-bottom: 2px solid #b6aaaa;
+  background-color: whitesmoke;
 }

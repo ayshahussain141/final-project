@@ -18,7 +18,7 @@ export default class AuthPage extends React.Component {
         <div className="col-12">
           <div className='col-11 text-center'>
             <h2 className="mb-2">
-              SchoolZen
+              SchoolifeZen
             </h2>
             <p className="text-muted mb-4">{welcomeMessage}</p>
           </div>
