@@ -279,21 +279,27 @@ export default class Course extends React.Component {
     const deletePopup = this.state.popup ? 'view' : 'hidden';
     const form = this.state.updateAssignment
       ? (<form onSubmit={this.handleSubmitOne}>
-        <label className='col-9 max-auto mt-5 mb-2'>
-          <input required type="text" value={this.state.value} onChange={this.handleChange} placeholder='New Assignment'/>
-        </label>
-        <textarea type="text" onChange={this.handleChangeOne} rows="3" cols="25" className='margin-left' value={this.state.valueOne}/>
-        <label className='margin-minus'>
-          <input required type="date" placeholder='MM/DD/YYY' onChange={this.dateChange} value={this.state.date} />
-        </label>
-        <div className='col-9 text-end'>
+        <div className='text-end'><button type='button' className='border-0' onClick={this.hidePage}><i className="fa-solid fa-xmark" /></button></div>
+        <div className='row'>
+          <div className='col-12'>
+            <label>
+              <input className='border-color input-large m-3' required type="text" value={this.state.value} onChange={this.handleChange} placeholder='New Assignment'/>
+            </label>
+            <textarea type="text" onChange={this.handleChangeOne} rows="3" cols="25" className='margin-left' value={this.state.valueOne}/>
+            <div className='row margin-left'>
+              <label>
+                <input required type="date" placeholder='MM/DD/YYY' onChange={this.dateChange} className='border-color' value={this.state.date} />
+              </label>
+            </div>
+          </div>
+        </div>
+        <div className='col-11 text-end'>
           <button type="submit" className="btn bg-primary m-3 text-light">Add</button>
-          <button onClick={this.hidePage} type="button" className="btn bg-primary m-3 text-light">Cancel</button>
         </div>
       </form>)
       : null;
 
-    return (<div>
+    return (<div className='container'>
       <div className="row">
         <div className='col-12'>
           <div className='row'>
@@ -314,7 +320,6 @@ export default class Course extends React.Component {
         </div>
       </div>
       <CourseForm ButtonText={buttonText} Colors={this.state.color} Changecolors={this.colorChange} Hide={this.HideClass} handle={this.handleChange} values={this.state.value} Submit={this.handleSubmit}/>
-
       <div>
         <div className={`row ${button}`}>
           <div className='col-2 popup'>
@@ -337,8 +342,8 @@ export default class Course extends React.Component {
           </div>
 
           <div className={`overlay ${changepageform}`} />
-          <div className='row text-center'>
-            <div className={`boxes ${changepageform}`} >
+          <div className='row justify-content-center'>
+            <div className={`position-absolute boxes ${changepageform}`} >
               {form}
             </div>
           </div>
