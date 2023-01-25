@@ -142,8 +142,8 @@ where "courseId" = $1
 });
 
 app.post('/api/auth/sign-up', (req, res, next) => {
-  const { userName, password } = req.body;
-  if (!userName || !password) {
+  const { username, password } = req.body;
+  if (!username || !password) {
     throw new ClientError(400, 'username and password are required fields');
   }
   argon2
@@ -152,7 +152,7 @@ app.post('/api/auth/sign-up', (req, res, next) => {
       const sql = `insert into users ("userName","hashedPassword")
               values ($1, $2)
               returning *`;
-      const values = [userName, password];
+      const values = [username, password];
       db.query(sql, values)
         .then(result => {
           const user = result.rows[0];
@@ -167,17 +167,18 @@ app.post('/api/auth/sign-up', (req, res, next) => {
 });
 
 app.post('/api/auth/sign-in', (req, res, next) => {
-  const { userName, password } = req.body;
-  if (!userName || !password) {
+  const { username, password } = req.body;
+  if (!username || !password) {
     throw new ClientError(401, 'invalid login');
   }
+  console.log('query worked');
   const sql = `
     select "userId",
            "hashedPassword"
       from "users"
      where "userName" = $1
   `;
-  const params = [userName];
+  const params = [username];
   db.query(sql, params)
     .then(result => {
       const [user] = result.rows;
@@ -191,7 +192,7 @@ app.post('/api/auth/sign-in', (req, res, next) => {
           if (!isMatching) {
             throw new ClientError(401, 'invalid login');
           }
-          const payload = { userId, userName };
+          const payload = { userId, username };
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           res.json({ token, user: payload });
         });
