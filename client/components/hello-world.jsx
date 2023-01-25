@@ -1,16 +1,15 @@
 import React from 'react';
-// import Header from './header';
 import ListItems from './course';
 import Assignments from './assignments';
 import DeleteCourse from './delete';
 import CourseForm from './courseform';
+import Popup from './popup';
 
 export default class Course extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isActive: false,
-      toggle: false,
       value: '',
       courseList: [],
       color: 'white',
@@ -27,22 +26,19 @@ export default class Course extends React.Component {
     };
     this.AddClass = this.AddClass.bind(this);
     this.HideClass = this.HideClass.bind(this);
-    this.OpenDrawer = this.OpenDrawer.bind(this);
-    this.CloseDrawer = this.CloseDrawer.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.colorChange = this.colorChange.bind(this);
     this.ChangeView = this.ChangeView.bind(this);
     this.ChangeSee = this.ChangeSee.bind(this);
     this.handleChangeOne = this.handleChangeOne.bind(this);
-    this.handleSubmitOne = this.handleSubmitOne.bind(this);
+    this.handleSubmitassignment = this.handleSubmitassignment.bind(this);
     this.changeAssignment = this.changeAssignment.bind(this);
     this.dateChange = this.dateChange.bind(this);
     this.hidePopup = this.hidePopup.bind(this);
     this.OpenPopup = this.OpenPopup.bind(this);
     this.deleteSubmit = this.deleteSubmit.bind(this);
     this.toggle = this.toggle.bind(this);
-    this.viewCourse = this.viewCourse.bind(this);
     this.hidePage = this.hidePage.bind(this);
 
   }
@@ -57,18 +53,6 @@ export default class Course extends React.Component {
       value: '',
       color: 'white'
     });
-  }
-
-  OpenDrawer() {
-    this.setState({ toggle: true });
-  }
-
-  CloseDrawer() {
-    this.setState({ toggle: false });
-  }
-
-  viewCourse() {
-    this.setState({ isHidden: this.state.isHidden });
   }
 
   componentDidMount() {
@@ -162,12 +146,16 @@ export default class Course extends React.Component {
     this.setState({ date: event.target.value });
   }
 
-  handleSubmitOne(event) {
+  handleSubmitassignment(event) {
     event.preventDefault();
     this.setState({
       change: false,
-      updateAssignment: true
+      updateAssignment: true,
+      valueOne: '',
+      value: '',
+      date: ''
     });
+    event.target.reset();
     const reqObj = {};
     reqObj.assignment = this.state.value;
     reqObj.about = this.state.valueOne;
@@ -272,13 +260,12 @@ export default class Course extends React.Component {
 
   render(event) {
     const buttonText = this.state.isActive ? 'view' : 'hidden';
-    const button = this.state.toggle ? 'view' : 'hidden';
     const changepage = this.state.isHidden ? 'view' : 'hidden';
     const changepagetwo = this.state.isHidden ? 'hidden' : 'view';
     const changepageform = this.state.change ? 'view' : 'hidden';
     const deletePopup = this.state.popup ? 'view' : 'hidden';
     const form = this.state.updateAssignment
-      ? (<form onSubmit={this.handleSubmitOne}>
+      ? (<form onSubmit={this.handleSubmitassignment}>
         <div className='text-end'><button type='button' className='border-0' onClick={this.hidePage}><i className="fa-solid fa-xmark" /></button></div>
         <div className='row'>
           <div className='col-12'>
@@ -297,60 +284,52 @@ export default class Course extends React.Component {
           <button type="submit" className="btn bg-primary m-3 text-light">Add</button>
         </div>
       </form>)
-      : null;
+      : false;
 
-    return (<div className='container'>
-      <div className="row">
-        <div className='col-12'>
-          <div className='row'>
-            <div className='col-2 text-center'>
-              <i onClick={this.OpenDrawer}className='fa-solid fa-bars mt-3' />
-            </div>
-            <div className='col-9 text-end'>
-              <i onClick={this.AddClass} className={`fa-solid fa-plus mt-5 ${changepagetwo}`} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="col-9 mx-auto">
-        <div className={`ml-1 ${changepagetwo}`}>
-          <h1>Courses</h1>
-          <ListItems popup={this.OpenPopup} changeView={this.ChangeView} list={this.state.courseList}/>
-        </div>
-      </div>
-      <CourseForm ButtonText={buttonText} Colors={this.state.color} Changecolors={this.colorChange} Hide={this.HideClass} handle={this.handleChange} values={this.state.value} Submit={this.handleSubmit}/>
-      <div>
-        <div className={`row ${button}`}>
-          <div className='col-2 popup'>
-            <i onClick={this.CloseDrawer} className="col-12 fa-solid fa-x text-end text-dark" />
-            <a onClick={this.viewCourse}><h5 className='m-2 text-center'>Courses</h5></a>
-          </div>
-        </div>
-      </div>
-
-      <div className='col-9 mx-auto '>
-        <div className={`mt-5 ${changepage}`}>
-          <div className="ml-1" >
+    return (
+      <div className='container'>
+        <div className="row">
+          <div className='col-12'>
             <div className='row'>
-              <h1 className='d-inline'>Assignments</h1>
-              <i onClick={this.changeAssignment} className="fa-solid fa-plus text-end" />
-            </div>
-            <div>
-              <Assignments Toggle={this.toggle} list={this.state.clickedCourseAssignments}/>
-            </div>
-          </div>
-
-          <div className={`overlay ${changepageform}`} />
-          <div className='row justify-content-center'>
-            <div className={`position-absolute boxes ${changepageform}`} >
-              {form}
+              <div className='col-2 text-center'>
+                <Popup />
+              </div>
+              <div className='col-9 text-end'>
+                <i onClick={this.AddClass} className={`fa-solid fa-plus mt-5 ${changepagetwo}`} />
+              </div>
             </div>
           </div>
         </div>
+        <div className="col-9 mx-auto">
+          <div className={`ml-1 ${changepagetwo}`}>
+            <h1>Courses</h1>
+            <ListItems popup={this.OpenPopup} changeView={this.ChangeView} list={this.state.courseList}/>
+          </div>
+        </div>
+        <CourseForm ButtonText={buttonText} Colors={this.state.color} Changecolors={this.colorChange} Hide={this.HideClass} handle={this.handleChange} values={this.state.value} Submit={this.handleSubmit}/>
+
+        <div className='col-9 mx-auto '>
+          <div className={`mt-5 ${changepage}`}>
+            <div className="ml-1" >
+              <div className='row'>
+                <h1 className='d-inline'>Assignments</h1>
+                <i onClick={this.changeAssignment} className="fa-solid fa-plus text-end" />
+              </div>
+              <div>
+                <Assignments Toggle={this.toggle} list={this.state.clickedCourseAssignments}/>
+              </div>
+            </div>
+
+            <div className={`overlay ${changepageform}`} />
+            <div className='row justify-content-center'>
+              <div className={`position-absolute boxes ${changepageform}`} >
+                {form}
+              </div>
+            </div>
+          </div>
+        </div>
+        <DeleteCourse Hide={this.hidePopup} deleteSubmitform={this.deleteSubmit} delete={deletePopup}/>
       </div>
-      <DeleteCourse Hide={this.hidePopup} deleteSubmitform={this.deleteSubmit} delete={deletePopup}/>
-    </div>
     );
   }
 }

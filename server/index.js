@@ -213,12 +213,6 @@ app.get('/api/finalproject', (req, res, next) => {
     })
     .catch(err => next(err));
 });
-app.use(errorMiddleware);
-
-app.listen(process.env.PORT, () => {
-  process.stdout.write(`\n\napp listening on port ${process.env.PORT}\n\n`);
-});
-
 app.use('/api', (req, res) => {
   res.status(404).json({ error: `cannot ${req.method} ${req.url}` });
 });
@@ -227,4 +221,10 @@ app.use((req, res) => {
   res.sendFile('/index.html', {
     root: path.join(__dirname, 'public')
   });
+});
+
+app.use(errorMiddleware);
+
+app.listen(process.env.PORT, () => {
+  process.stdout.write(`\n\napp listening on port ${process.env.PORT}\n\n`);
 });
