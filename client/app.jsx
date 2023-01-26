@@ -6,6 +6,7 @@ import AppContext from './lib/app-context';
 import Header from './components/header';
 import jwtDecode from 'jwt-decode';
 import HomePage from './pages/home-page';
+// import AssignmentPage from './pages/assignmentpage';
 
 export default class App extends React.Component {
   constructor(props) {
