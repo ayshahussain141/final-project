@@ -192,7 +192,7 @@ app.post('/api/auth/sign-in', (req, res, next) => {
             throw new ClientError(401, 'invalid login');
           }
           const payload = { userId, username };
-          const token = jwt.sign(payload, `${process.env.TOKEN_SECRET}`);
+          const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           res.json({ token, user: payload });
         });
     })
