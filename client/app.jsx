@@ -6,7 +6,6 @@ import AppContext from './lib/app-context';
 import Header from './components/header';
 import jwtDecode from 'jwt-decode';
 import HomePage from './pages/home-page';
-import Posted from './pages/assignmentPosted';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -29,7 +28,6 @@ export default class App extends React.Component {
     const token = window.localStorage.getItem('react-context-jwt');
     const user = token ? jwtDecode(token) : null;
     this.setState({ user, isAuthorizing: false });
-    console.log('users', user);
   }
 
   handleSignIn(result) {
@@ -55,9 +53,6 @@ export default class App extends React.Component {
     if (route.path === '') {
       return <HomePage />;
     }
-    // if (route.path === 'assignments') {
-    //   return <Posted />;
-    // }
     if (route.path === 'sign-up' || route.path === 'sign-in') {
       return <AuthPage/>;
     }
