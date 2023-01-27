@@ -322,7 +322,7 @@ export default class Course extends React.Component {
       <CourseForm ButtonText={buttonText} Colors={this.state.color} Changecolors={this.colorChange} Hide={this.HideClass} handle={this.handleChange} values={this.state.value} Submit={this.handleSubmit}/>
       <div>
         <div className={`row ${button}`}>
-          <div className='col-2 popup'>
+          <div className='col-2 popup position-absolute fixed-top mt-3'>
             <i onClick={this.CloseDrawer} className="col-12 fa-solid fa-x text-end text-dark" />
             <a href='#courses' onClick={this.ChangeSee}><h5 className='m-2 text-center'>Courses</h5></a>
           </div>

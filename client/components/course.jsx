@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class listItems extends React.Component {
+export default class ListItems extends React.Component {
   render() {
     const list = this.props.list;
     const listItems = list.map(lists => {
