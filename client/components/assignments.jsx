@@ -20,12 +20,11 @@ export default class Assignments extends React.Component {
         dates = 'Late';
         className = 'margin-subtract';
       }
-
       return (<li key = {lists.assignmentId} className='list-unstyled liststyle'>
         <div className='row'>
           <p className='text-end color-red'>{dates}</p>
           <div className={`col-12 ${className}`} >
-            <i onClick={this.props.Toggle} data-number={lists.assignmentId} data-complete={lists.isCompleted} className={button} ref={this.idNumber}/>
+            <i onClick={this.props.Toggle} data-number={lists.assignmentId} data-complete={lists.isCompleted} className={button}/>
             <h6 className='d-inline m-2'>{lists.assignment}</h6>
           </div>
         </div>

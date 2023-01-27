@@ -167,12 +167,10 @@ app.post('/api/auth/sign-up', (req, res, next) => {
 });
 
 app.post('/api/auth/sign-in', (req, res, next) => {
-  console.log('query worked line 2');
   const { username, password } = req.body;
   if (!username || !password) {
     throw new ClientError(401, 'invalid login');
   }
-  // console.log('query worked');
   const sql = `
     select "userId",
            "hashedPassword"
@@ -194,7 +192,7 @@ app.post('/api/auth/sign-in', (req, res, next) => {
             throw new ClientError(401, 'invalid login');
           }
           const payload = { userId, username };
-          const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+          const token = jwt.sign(payload, `${process.env.TOKEN_SECRET}`);
           res.json({ token, user: payload });
         });
     })

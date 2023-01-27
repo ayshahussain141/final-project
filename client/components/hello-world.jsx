@@ -148,10 +148,11 @@ export default class Course extends React.Component {
       clickedCourseAssignments: arr,
       clickedCourse: clickedId
     });
+
   }
 
   ChangeSee() {
-    this.setState({ isHidden: 'hidden' });
+    this.setState({ isHidden: false });
   }
 
   handleChangeOne(event) {
@@ -197,14 +198,13 @@ export default class Course extends React.Component {
           assignmentList: assignmentCopy,
           clickedCourseAssignments: arr
         });
-
       })
       .catch(err => console.error(err));
+    location.reload();
   }
 
-  hidePage() {
+  hidePage(data) {
     this.setState({ change: false });
-
   }
 
   changeAssignment() {
@@ -324,7 +324,7 @@ export default class Course extends React.Component {
         <div className={`row ${button}`}>
           <div className='col-2 popup'>
             <i onClick={this.CloseDrawer} className="col-12 fa-solid fa-x text-end text-dark" />
-            <a onClick={this.viewCourse}><h5 className='m-2 text-center'>Courses</h5></a>
+            <a href='#courses' onClick={this.ChangeSee}><h5 className='m-2 text-center'>Courses</h5></a>
           </div>
         </div>
       </div>
