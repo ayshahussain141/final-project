@@ -6,7 +6,7 @@ import AppContext from './lib/app-context';
 import Header from './components/header';
 import jwtDecode from 'jwt-decode';
 import HomePage from './pages/home-page';
-
+import Posted from '../client/components/postedassignment';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -34,13 +34,13 @@ export default class App extends React.Component {
     const { user, token } = result;
     window.localStorage.setItem('react-context-jwt', token);
     window.localStorage.setItem('user', user.userId);
-    // console.log(window.localStorage);
     this.setState({ user });
   }
 
   handleSignOut() {
     window.localStorage.removeItem('react-context-jwt');
     window.localStorage.removeItem('user');
+    window.localStorage.removeItem('id');
     this.setState({ user: null });
     window.location.hash = '';
   }
@@ -49,6 +49,9 @@ export default class App extends React.Component {
     const { route } = this.state;
     if (route.path === 'courses') {
       return <Home/>;
+    }
+    if (route.path === 'assignments') {
+      return <Posted/>;
     }
     if (route.path === '') {
       return <HomePage />;

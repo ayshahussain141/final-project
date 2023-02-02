@@ -17,23 +17,6 @@ const db = new pg.Pool({
 });
 
 app.use(staticMiddleware);
-
-// app.get('/api/finalproject', (req, res, next) => {
-//   const userId = req.body;
-//   const sql = `
-//     select *
-//       from "courseEntries"
-//      where "userId" = 2
-//   `;
-//   const params = [userId];
-//   db.query(sql, params)
-//     .then(result => {
-//       res.json(result.rows);
-//       console.log(result.rows);
-//     })
-//     .catch(err => next(err));
-// });
-
 app.get('/api/finalproject/assignment', (req, res, next) => {
   const sql = `
     select *
@@ -47,18 +30,18 @@ app.get('/api/finalproject/assignment', (req, res, next) => {
     })
     .catch(err => next(err));
 });
-
-app.get('/api/finalproject/assignment/:assignmentId', (req, res, next) => {
-  const { assignmentId } = req.params;
+app.get('/api/assignments/courseId', (req, res, next) => {
+  const { courseId } = req.params;
   const sql = `
-    select *
+   select *
       from "assignments"
-      where "assignmentId" = $1
+      where "courseId" = $1
   `;
-  const params = [assignmentId];
-  db.query(sql, params)
+  const course = [courseId];
+
+  db.query(sql, course)
     .then(result => {
-      const users = result.rows[0];
+      const users = result.rows;
       res.json(users);
     })
     .catch(err => next(err));
@@ -77,23 +60,6 @@ app.post('/api/finalproject', (req, res, next) => {
     .then(result => {
       const course = result.rows[0];
       return res.status(201).json(course);
-    })
-    .catch(err => next(err));
-});
-
-app.post('/api/finalproject/assignment', (req, res, next) => {
-  const { assignment } = req.body;
-  const { about } = req.body;
-  const { dateDue } = req.body;
-  const { courseId } = req.body;
-  const sql = `insert into "assignments" ("assignment", "about", "dateDue","courseId")
-                values($1, $2, $3, $4)
-                returning *`;
-  const values = [assignment, about, dateDue, courseId];
-  db.query(sql, values)
-    .then(result => {
-      const course = result.rows[0];
-      res.status(201).json(course);
     })
     .catch(err => next(err));
 });
@@ -210,6 +176,38 @@ app.get('/api/finalproject', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       res.json(result.rows);
+    })
+    .catch(err => next(err));
+});
+app.get('/api/finalproject/assignment/:courseId', (req, res, next) => {
+  const { courseId } = req.params;
+  const sql = `
+    select *
+      from "assignments"
+      where "courseId" = $1
+  `;
+  const params = [courseId];
+  db.query(sql, params)
+    .then(result => {
+      const users = result.rows;
+      res.json(users);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/finalproject/assignment', (req, res, next) => {
+  const { assignment } = req.body;
+  const { about } = req.body;
+  const { dateDue } = req.body;
+  const { courseId } = req.body;
+  const sql = `insert into "assignments" ("assignment", "about", "dateDue","courseId")
+                values($1, $2, $3, $4)
+                returning *`;
+  const values = [assignment, about, dateDue, courseId];
+  db.query(sql, values)
+    .then(result => {
+      const course = result.rows[0];
+      res.status(201).json(course);
     })
     .catch(err => next(err));
 });
