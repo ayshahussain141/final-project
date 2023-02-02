@@ -5,3 +5,10 @@
 .view {
   display: visible;
 }
+
+@media (min-width: 780px) {
+  .background-image {
+    height: 500px;
+    background-position: center bottom;
+  }
+}

@@ -28,7 +28,7 @@ export default class Assignments extends React.Component {
             <h6 className='d-inline m-2'>{lists.assignment}</h6>
           </div>
         </div>
-        <div key={lists.assignmentId} className='mt-2 color margin-left'>
+        <div key={lists.assignmentId} className='mt-2 color margin'>
           <i><span className='d-block'>{lists.about}</span></i>
           <span className='d-block mt-1'>{lists.dateDue.split('T')[0]}</span>
         </div>

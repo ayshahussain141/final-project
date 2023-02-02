@@ -20,7 +20,7 @@ export default class Popup extends React.Component {
   render() {
     const button = this.state.toggle ? 'view' : 'hidden';
     return (<div className="row">
-      <div className='col-12'>
+      <div className='col-12 '>
         <div className='row'>
           <div className='col-2 text-center'>
             <i onClick={this.drawer} className='fa-solid fa-bars mt-3' />
@@ -28,7 +28,7 @@ export default class Popup extends React.Component {
         </div>
       </div>
       <div className="row ">
-        <div className={`col-2 popup ${button}`}>
+        <div className={`col-2 popup position-absolute fixed-top mt-3 ${button} `}>
           <i onClick={this.CloseDrawer} className="col-12 fa-solid fa-x text-end text-dark" />
           <a href='#courses'
             onClick={this.viewCourse}><h5 className='m-2 text-center'>Courses</h5></a>

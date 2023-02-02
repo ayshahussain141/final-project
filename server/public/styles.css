@@ -24,7 +24,6 @@
 }
 
 .popup {
-  /* position: absolute; */
   background-color: rgb(245, 245, 245, 67%);
   height: 500px;
   width: 200px;
@@ -81,114 +80,6 @@
   display: none;
 }
 
-.lavendar {
-  background-color: #e6e6fa;
-}
-
-.thistle {
-  background-color: #d8bfd8;
-}
-
-.plum {
-  background-color: plum;
-}
-
-.violet {
-  background-color: #ee82ee;
-}
-
-.orchid {
-  background-color: #e6e6fa;
-}
-
-.mediumorchid {
-  background-color: #ba55d3;
-}
-
-.mediumpurple {
-  background-color: #9370db;
-}
-
-.indianred {
-  background-color: #cd5c5c;
-}
-
-.lightcoral {
-  background-color: #f08080;
-}
-
-.salmon {
-  background-color: #fa8072;
-}
-
-.darksalmon {
-  background-color: #e9967a;
-}
-
-.lightsalmon {
-  background-color: #ffa07a;
-}
-
-.crimson {
-  background-color: crimson;
-}
-
-.pink {
-  background-color: pink;
-}
-
-.lightpink {
-  background-color: lightpink;
-}
-
-.hotpink {
-  background-color: hotpink;
-}
-
-.steelblue {
-  background-color: steelblue;
-}
-
-.mediumslateblue {
-  background-color: mediumslateblue;
-}
-
-.blue {
-  background-color: blue;
-}
-
-.lime {
-  background-color: rgb(30, 215, 30);
-}
-
-.limegreen {
-  background-color: rgb(203, 220, 14);
-}
-
-.palegreen {
-  background-color: rgb(45, 223, 191);
-}
-
-.lightgreen {
-  background-color: rgb(130, 225, 130);
-}
-
-.seagreen {
-  background-color: rgb(77, 232, 144);
-}
-
-.forestgreen {
-  background-color: rgb(92, 202, 92);
-}
-
-.green {
-  background-color: rgb(121, 248, 121);
-}
-
-.white {
-  background-color: white;
-}
-
 .positions {
   position: relative;
   top: 45px;
@@ -202,10 +93,6 @@
 .color {
   color: #b6aaaa;
   font-size: small;
-}
-
-.margin-left {
-  margin-left: 25px;
 }
 
 .boxes {
@@ -233,22 +120,22 @@
 }
 
 .delete {
-  background-color: whitesmoke;
-  top: 213px;
   position: absolute;
+  top: 250px;
+  background-color: whitesmoke;
   height: 200px;
-  left: 37%;
   width: 352px;
   border-radius: 5px;
   border: 1px solid black;
 }
 
 .background-image {
-  background-image: url("https://images.pexels.com/photos/965119/pexels-photo-965119.jpeg");
+  background-image:
+    linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(29, 26, 28, 0.73)),
+    url("https://images.pexels.com/photos/965119/pexels-photo-965119.jpeg");
   background-size: cover;
   background-repeat: no-repeat;
-  height: 100vh;
-  background-position: center bottom;
+  height: 562px;
 }
 
 .border-color {
