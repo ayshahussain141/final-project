@@ -30,7 +30,7 @@ export default class Popup extends React.Component {
       <div className="row ">
         <div className={`col-2 popup position-absolute fixed-top mt-3 ${button} `}>
           <i onClick={this.CloseDrawer} className="col-12 fa-solid fa-x text-end text-dark" />
-          <a href='#courses'
+          <a href='#courses' className="link-dark"
             onClick={this.viewCourse}><h5 className='m-2 text-center'>Courses</h5></a>
         </div>
       </div>

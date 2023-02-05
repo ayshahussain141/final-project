@@ -22,7 +22,7 @@ As a college student I usually struggled to keep track of my assignments expecia
 http://schoolifezen.com/
 
 # Features
-* User can cretae a course
+* User can create a course
 * User can add color to course
 * User can add assignments corrsponding to the course
 * User can add due dates to assignments

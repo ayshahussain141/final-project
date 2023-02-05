@@ -142,7 +142,7 @@ export default class Posted extends React.Component {
             <label>
               <input className='border-color input-large m-3' required type="text" value={this.state.value} onChange={this.handleChange} placeholder='New Assignment' />
             </label>
-            <textarea type="text" onChange={this.handleChangeOne} rows="3" cols="25" className='margin' value={this.state.valueOne} />
+            <textarea type="text" onChange={this.handleChangeOne} rows="3" cols="20" className='margin' value={this.state.valueOne} />
             <div className='row margin'>
               <label>
                 <input required type="date" placeholder='MM/DD/YYY' onChange={this.dateChange} className='border-color' value={this.state.date} />
