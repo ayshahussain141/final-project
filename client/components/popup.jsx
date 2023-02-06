@@ -23,7 +23,7 @@ export default class Popup extends React.Component {
       <div className='col-12 '>
         <div className='row'>
           <div className='col-2 text-center'>
-            <i onClick={this.drawer} className='fa-solid fa-bars mt-3' />
+            <i role="button" onClick={this.drawer} className='fa-solid fa-bars mt-3' />
           </div>
         </div>
       </div>
