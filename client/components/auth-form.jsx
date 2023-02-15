@@ -10,6 +10,7 @@ export default class AuthForm extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.signedIn = this.signedIn.bind(this);
   }
 
   handleChange(event) {
@@ -47,9 +48,14 @@ export default class AuthForm extends React.Component {
       });
   }
 
+  signedIn(event) {
+    this.setState({ username: 'welcome', password: '1234567' });
+    event.preventDefault();
+  }
+
   render() {
     const { action } = this.props;
-    const { handleChange, handleSubmit } = this;
+    const { handleChange, handleSubmit, signedIn } = this;
     const alternateActionHref = action === 'sign-up'
       ? '#sign-in'
       : '#sign-up';
@@ -83,6 +89,7 @@ export default class AuthForm extends React.Component {
                 type="text"
                 name="username"
                 onChange={handleChange}
+                value={this.state.username}
                 className="form-label" />
             </div>
           </div>
@@ -97,6 +104,7 @@ export default class AuthForm extends React.Component {
                 type="password"
                 name="password"
                 onChange={handleChange}
+                value={this.state.password}
                 className="form-label" />
             </div>
           </div>
@@ -111,6 +119,11 @@ export default class AuthForm extends React.Component {
             <button type="submit" className="btn bg-primary text-light mt-3">
               {submitButtonText}
             </button>
+            {action !== 'sign-up' && (
+              <button type="button" className="btn btn-outline-success mt-3" onClick={signedIn}>
+                Click to try!
+              </button>
+            )}
           </div>
         </form>
       </div>
